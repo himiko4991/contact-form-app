@@ -158,17 +158,15 @@ class AdminTest extends TestCase
             'building' => '岩屋城',
             'category_id' => $category->id,
             'detail' => '商品について確認したい。',
-            'created_at' => '2026-10-07 10:00:00',
-            'updated_at' => '2026-10-07 10:00:00',
+            
         ]);
         
 
-        $newContact->updateQuietly([
-            'created_at' => '2026-10-07 10:00:00',
-            'updated_at' => '2026-10-07 10:00:00',
-        ]);
+        $newContact->created_at = '2026-10-07 10:00:00';
+        $newContact->updated_at = '2026-10-07 10:00:00';
+        $newContact->saveQuietly();
                 
-
+        
         $response = $this->actingAs($user)
             ->get('/admin?date=2026-10-07');
            
