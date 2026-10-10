@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Models\Contact;
 use App\Models\Category;
 use App\Models\Tag;
@@ -62,10 +63,14 @@ class AdminController extends Controller
 
     public function storeTag(Request $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-        ]);
 
+        $request->validate([
+            'name' => ['required', 'string', 'max:50', 'unique:tags,name'],
+        ],  [
+            'name.required' => 'タグ名を入力してください',
+            'name.max' => 'タグ名は50文字以内で入力してください',
+            'name.unique' => 'そのタグ名は既に使用されています',
+        ]);
         Tag::create([
             'name' => $request->name,
         ]);
@@ -90,7 +95,16 @@ class AdminController extends Controller
     public function updateTag(Request $request, Tag $tag)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'name' => [
+                'required',
+                'string',
+                'max:50',
+                Rule::unique('tags', 'name')->ignore($tag->id),
+            ],
+        ], [   
+            'name.required' => 'タグ名を入力してください',
+            'name.max' => 'タグ名は50文字以内で入力してください',
+            'name.unique' => 'そのタグ名は既に使用されています',
         ]);
 
         $tag->update([
