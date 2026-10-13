@@ -19,11 +19,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/V1/contacts', [ContactController::class, 'index']);
-Route::get('/V1/contacts/{contact}', [ContactController::class, 'show']);
-Route::post('/V1/contacts', [ContactController::class, 'store']);
-Route::put('/V1/contacts/{id}', [ContactController::class, 'update']);
-Route::delete('/V1/contacts/{id}', [ContactController::class, 'destroy']);
+Route::get('/v1/contacts', [ContactController::class, 'index']);
+Route::get('/v1/contacts/{contact}', [ContactController::class, 'show']);
+Route::post('/v1/contacts', [ContactController::class, 'store']);
+Route::put('/v1/contacts/{contact}', [ContactController::class, 'update']);
+Route::delete('/v1/contacts/{contact}', [ContactController::class, 'destroy']);
 
 
 

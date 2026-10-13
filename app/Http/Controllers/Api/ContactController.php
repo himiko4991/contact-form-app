@@ -84,28 +84,22 @@ class ContactController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateContactRequest $request, string $id)
+    public function update(UpdateContactRequest $request, Contact $contact)
     {
-        $contact = Contact::findOrFail($id);
-
-        $contact->update($request->all());
+        $contact->update($request->validated());
 
         $contact->tags()->sync($request->input('tag_ids', []));
 
         return new ContactResource($contact);
-
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Contact $contact)
     {
-        $contact = Contact::findOrFail($id);
-
         $contact->delete();
- 
-        return response()->json(null, 204);
 
+        return response()->noContent();
     }
 }
